@@ -21,19 +21,32 @@ export class DatosCorreoComponent  implements OnInit {
   ano: number = 2004;
   genero: string = '';
 
-  dias: number[] = Array.from({ length: 31 }, (_, i) => i + 1);
+  dias: number[] = [];
   meses: number[] = Array.from({ length: 12 }, (_, i) => i + 1);
   anos: number[] = Array.from({ length: 27 }, (_, i) => 2004 + i);
 
-  datosSubscription: Subscription | undefined;
+
   loading: any;
   datos$: Observable<any[]> = of([]); 
+  datosSubscription: Subscription | undefined;
 
   constructor(
     private loadingController: LoadingController,
     private userService: UserService,
     private router: Router
   ) { }
+
+  ngOnInit() {
+    this.actualizarDias();
+  }
+
+  actualizarDias() {
+    this.dias = [];
+    const diasEnMes = new Date(this.ano, this.mes, 0).getDate(); // Obtiene la cantidad de días en el mes seleccionado
+    for (let i = 1; i <= diasEnMes; i++) {
+      this.dias.push(i);
+    }
+  }
 
   async submitForm() {
     this.loading = await this.loadingController.create({
@@ -55,6 +68,7 @@ export class DatosCorreoComponent  implements OnInit {
     }
     this.router.navigate(['/principal2', { nombre: this.nombre }]);
   }
+
 
   misDatos: any[] = [];
 
@@ -92,6 +106,5 @@ export class DatosCorreoComponent  implements OnInit {
     }
   }
 
-  ngOnInit() {}
 
 }

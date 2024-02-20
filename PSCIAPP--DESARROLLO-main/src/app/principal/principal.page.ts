@@ -22,4 +22,8 @@ export class PrincipalPage implements OnInit {
     this.router.navigate(['/chat']);
   }
 
+  irPrincipal(){
+    this.router.navigate(['/Principal']);
+  }
+
 }

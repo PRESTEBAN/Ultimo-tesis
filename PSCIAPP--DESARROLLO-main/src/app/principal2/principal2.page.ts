@@ -15,11 +15,46 @@ export class Principal2Page implements OnInit {
   nombreUsuarioCorreo: string = '';
 
   ngOnInit() {
-    this. nombreUsuarioCorreo = this.userService.getUserNameCorreo();
+    const userId = this.userService.getUserId();
+    if (userId) {
+      this.userService.getUserNameFromDatabase(userId).then(name => {
+        this.nombreUsuarioCorreo = name;
+      });
+    } else {
+      this.nombreUsuarioCorreo = 'Invitado'; // Si no se encuentra el ID de usuario, establece el nombre como 'Invitado'
+    }
   }
 
   irChat(){
     this.router.navigate(['/chat']);
+  }
+
+  irPrincipal(){
+    this.router.navigate(['/Principal2']);
+  }
+
+  logout() {
+    const userId = this.userService.getUserId();
+    if (userId !== undefined) {
+      // Limpiar los mensajes al cerrar sesión
+      const userMessagesRef = this.userService.getUserMessagesRef(userId);
+  
+      if (userMessagesRef) {
+        userMessagesRef.get().subscribe(snapshot => {
+          snapshot.forEach(doc => {
+            doc.ref.delete();
+          });
+        });
+      } else {
+        console.error('User Messages Reference is null');
+      }
+    }
+  
+    this.userService.logout().then(() => {
+      this.router.navigate(['/home']);
+    }).catch((error) => {
+      console.error('Error al cerrar sesión:', error);
+    });
   }
 
 }

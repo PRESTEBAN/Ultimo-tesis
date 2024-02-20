@@ -1,5 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-toolbar>
+      <div class="regresar"> <!-- Igual es un contenedor, pero este es mas pequeño y engloba solo el boton para regresar al menu inicial  -->
+          <img src="../../assets/arrow-left.png" alt="" (click)="volver2()">
+      </div>
+    </ion-toolbar>
     <ion-title class="ion-text-center">
      <strong>PSCYAI</strong>
     </ion-title>
@@ -7,7 +12,6 @@
 </ion-header>
 
 <ion-content [scrollEvents]="true">
-
 
   <div *ngIf="!messages.length" class="empty">
     <ion-icon src="assets/bot.svg"></ion-icon>
@@ -33,7 +37,6 @@
 
   <ion-item class="text-box-item">
     <ion-textarea formControlName="promt" auto-grow="true" placeholder="Escribe algo..."></ion-textarea>
-    
     <ion-buttons slot="end">  
      <ion-button type="submit" [disabled] = "form.invalid">
        <ion-icon name="send" class="submit-icon"></ion-icon > 
@@ -42,9 +45,4 @@
    </ion-item>
 
 </form>
-
- <ion-button expand="full" (click)="logout()">
-   Logout
-  </ion-button>
-
 </ion-footer>

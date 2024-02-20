@@ -1,35 +1,40 @@
-<ion-content [fullscreen]="true" color="tertiary">
+<ion-content [fullscreen]="true" >
   <div class="general"> <!-- Este el el contenedor general que engloba todos los elementos que estan adentro -->
-    <div class="regresar"> <!-- Igual es un contenedor, pero este es mas pequeño y engloba solo el boton para regresar al menu inicial  -->
-      <a href="/home">
-        <img src="../../assets/arrow-left.png" alt="">
-      </a>
-    </div>
     <br>
     <div class="texto">
+      <ion-buttons slot="start">
+        <ion-back-button default-href="#"></ion-back-button>
+      </ion-buttons>
       <ion-label id="titulo">Bienvenido a PSY</ion-label>
       <br><br>
-      <div class="contTex">
+      <div class="contex">
         <ion-label id="text">Estamos felices de que hayas vuelto, usa tu cuenta para poder seguir disfrutando de </ion-label>
         <ion-label id="psy">PSY</ion-label>
       </div>
     </div>
-    <div class="oInSession">
-      <div class="email"></div>
-      <a href=""><div class="cel"></div></a>
-    </div>
     <br><br>
-    <form [formGroup]="formReg" (ngSubmit)="onSubmit()" >
+    <form [formGroup]="formReg" (ngSubmit)="onSubmit()">
       <ion-item class="mb-3">
         <ion-label position="floating" >Email</ion-label>
         <ion-input type="text" formControlName="email" ></ion-input>
       </ion-item > 
+      <div *ngIf="formReg.get('email')?.errors?.['required'] && formReg.get('email')?.touched">
+        <ion-text color="danger">No se introdujo el usuario.</ion-text>
+      </div>
+      <div *ngIf="formReg.get('email')?.errors?.['email'] && formReg.get('email')?.touched">
+        <ion-text color="danger">Correo no válido.</ion-text>
+      </div>
+    
       <ion-item class="mb-3">
         <ion-label position="floating">Password</ion-label>
         <ion-input type="password" formControlName="password"></ion-input>
       </ion-item>
+      <div *ngIf="formReg.get('password')?.errors?.['required'] && formReg.get('password')?.touched">
+        <ion-text color="danger">No se introdujo la contraseña.</ion-text>
+      </div>
+    
       <div class="button">
-      <ion-button class="boton" shape="round" type="submit" >Acceder</ion-button>
+        <ion-button class="boton" shape="round" type="submit" >Acceder</ion-button>
       </div>
     </form>
     <br><br>
@@ -99,7 +104,7 @@
         </div>
       </div>
       <br><br>
-      <div class="texto">
+      <div class="textos">
         <ion-label>¿Aún no tienes una cuenta? </ion-label>
         <a href="sign-up"><ion-label>Sign up</ion-label></a>
       </div>

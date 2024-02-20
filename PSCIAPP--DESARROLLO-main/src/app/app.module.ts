@@ -22,6 +22,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { DatosComponent } from "./components/datos/datos.component";
 import { FormsModule } from '@angular/forms';
 import { DatosCorreoComponent } from "./components/datos-correo/datos-correo.component";
+import { CardsAIComponent } from "./components/cards-ai/cards-ai.component";
+import { CardsPersonalidadComponent } from "./components/cards-personalidad/cards-personalidad.component";
+import { CardsPersonalidadcorreoComponent } from "./components/cards-personalidadcorreo/cards-personalidadcorreo.component";
 
 @NgModule({
   declarations: [
@@ -30,7 +33,10 @@ import { DatosCorreoComponent } from "./components/datos-correo/datos-correo.com
                  RegisterComponent,
                  LoginComponent,
                  DatosComponent,
-                 DatosCorreoComponent 
+                 DatosCorreoComponent,
+                 CardsAIComponent,
+                 CardsPersonalidadComponent,
+                 CardsPersonalidadcorreoComponent  
                 ],
   imports: [
            BrowserModule,

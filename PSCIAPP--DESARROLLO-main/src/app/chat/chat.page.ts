@@ -1,4 +1,3 @@
-// chat.page.ts
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Message } from '../models/message.model';
@@ -22,6 +21,8 @@ export class ChatPage implements OnInit {
   form = new FormGroup({
     promt: new FormControl('', [Validators.required, CustomValidators.noWhiteSpace])
   })
+
+  selectedCardImageUrl: string = '';
 
   loading: boolean = false;
 
@@ -121,28 +122,7 @@ export class ChatPage implements OnInit {
     this.content.scrollToBottom(2000);
   }
 
-  logout() {
-    const userId = this.userService.getUserId();
-    if (userId !== undefined) {
-      // Limpiar los mensajes al cerrar sesión
-      const userMessagesRef = this.userService.getUserMessagesRef(userId);
-  
-      if (userMessagesRef) {
-        userMessagesRef.get().subscribe(snapshot => {
-          snapshot.forEach(doc => {
-            doc.ref.delete();
-          });
-        });
-      } else {
-        console.error('User Messages Reference is null');
-      }
-    }
-  
-    this.userService.logout().then(() => {
-      this.router.navigate(['/home']);
-    }).catch((error) => {
-      console.error('Error al cerrar sesión:', error);
-    });
+  volver2(){
+    this.router.navigate(['/principal2']);
   }
-
 }

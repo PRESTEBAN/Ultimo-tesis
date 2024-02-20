@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FirestoreService } from '../services/firestore.service';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { Auth } from '@angular/fire/auth';
@@ -35,7 +34,7 @@ export class HomePage {
           // El usuario está iniciando sesión por primera vez
           console.log('Usuario nuevo');
           
-          this.router.navigate(['/datos']);
+          this.router.navigate(['/cards-personalidad']);
           // Puedes redirigir a una página de bienvenida o realizar acciones específicas para nuevos usuarios.
         } else if(!isNewUser) {
           // El usuario ya estaba logueado
@@ -45,29 +44,4 @@ export class HomePage {
       })
       .catch(error => console.log(error));
   }
-  
-  logout() {
-    const userId = this.userService.getUserId();
-    if (userId !== undefined) {
-      // Limpiar los mensajes al cerrar sesión
-      const userMessagesRef = this.userService.getUserMessagesRef(userId);
-  
-      if (userMessagesRef) {
-        userMessagesRef.get().subscribe(snapshot => {
-          snapshot.forEach(doc => {
-            doc.ref.delete();
-          });
-        });
-      } else {
-        console.error('User Messages Reference is null');
-      }
-    }
-  
-    this.userService.logout().then(() => {
-      this.router.navigate(['/home']);
-    }).catch((error) => {
-      console.error('Error al cerrar sesión:', error);
-    });
-  }
-
 }

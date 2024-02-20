@@ -100,6 +100,32 @@ export class UserService {
 
   }
 
+  async getUserNameFromDatabase(userId: string): Promise<string> {
+    try {
+      const formDataCollectionRef = this.firestore.collection(`form-data-Correo`, ref => ref.where('userId', '==', userId).limit(1));
+      const snapshot = await formDataCollectionRef.get().toPromise();
+      if (snapshot && !snapshot.empty) {
+        const userData = snapshot.docs[0].data();
+        if (this.isValidUserData(userData)) {
+          return userData.nombre || 'Invitado';
+        } else {
+          console.error('Los datos del usuario no son válidos:', userData);
+          return 'Invitado';
+        }
+      } else {
+        return 'Invitado';
+      }
+    } catch (error) {
+      console.error('Error al obtener el nombre desde la base de datos:', error);
+      return 'Invitado';
+    }
+  }
+
+  private isValidUserData(userData: any): userData is { nombre: string } {
+    return typeof userData === 'object' && userData !== null && typeof userData.nombre === 'string';
+  }
+
+
   async saveFormDataCorreo(userId: string, nombre: string, fechaNacimiento: string, genero: string) {
     try {
       // Crear una referencia a la colección form-data-Correo
@@ -122,7 +148,6 @@ export class UserService {
     }
   }
 
-
   async saveUserMessage(userId: string, userMessage: string, botMessage: string) {
   try {
     // Crear una referencia a la colección de mensajes del usuario
@@ -141,10 +166,8 @@ export class UserService {
       content: botMessage,
       timestamp: new Date(),
     });
-
     // Crear una referencia a la nueva colección para los datos del formulario
     const formDataRef = this.firestore.collection(`form-data`);
-
     // Guardar datos del formulario
     await formDataRef.add({
       userId: userId,
@@ -152,7 +175,6 @@ export class UserService {
       birthdate: botMessage, // Puedes ajustar este campo según tus necesidades
       timestamp: new Date(),
     });
-
     console.log('Messages and form data saved successfully.');
   } catch (error) {
     console.error('Error saving messages and form data:', error);
@@ -168,6 +190,6 @@ async sendUserNameToServer(userId: string, name: string) { //cree esto antes de 
     }
   } catch (error) {
     console.error('Error al enviar el nombre al servidor:', error);
-  }
-}
+   }
+ }
 }
