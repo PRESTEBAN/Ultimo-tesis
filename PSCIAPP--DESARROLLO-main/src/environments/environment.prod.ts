@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://tesis-ya-funca.onrender.com',
+  baseUrl: 'http://localhost:3000',
   firebaseConfig : {
     apiKey: "AIzaSyBeDocnIWswkLe7U6EMiULZaziccAiZiX4",
     authDomain: "viberisedb-8b4cb.firebaseapp.com",
