@@ -108,4 +108,4 @@ app.post('/', async (req, res) =>{
         res.status(500).send({error});
     }
 });
-app.listen(3000, ()=> console.log('Server is running on port https://psciapp-desarrollo-main.onrender.com'))
+app.listen(3000, ()=> console.log('Server is running on port http://localhost:3000'))

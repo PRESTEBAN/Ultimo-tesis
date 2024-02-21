@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://psciapp-desarrollo-main.onrender.com',
+  baseUrl: 'http://localhost:3000',
   firebaseConfig : {
     apiKey: "AIzaSyBeDocnIWswkLe7U6EMiULZaziccAiZiX4",
     authDomain: "viberisedb-8b4cb.firebaseapp.com",
