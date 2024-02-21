@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController,  AlertController } from '@ionic/angular';
 import { UserService } from '../../services/user.service';
 import { Observable, of } from 'rxjs';  
 import { Subscription } from 'rxjs';
@@ -33,7 +33,8 @@ export class DatosCorreoComponent  implements OnInit {
   constructor(
     private loadingController: LoadingController,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private alertController: AlertController
   ) { }
 
   ngOnInit() {
@@ -49,19 +50,23 @@ export class DatosCorreoComponent  implements OnInit {
   }
 
   async submitForm() {
+    // Verificar si todos los campos obligatorios están llenos
+    if (!this.nombre || !this.dia || !this.mes || !this.ano || !this.genero) {
+      this.mostrarAlerta('Llena todos los campos');
+      return;
+    }
+
     this.loading = await this.loadingController.create({
       message: 'Cargando...',
-      duration: 2000,
+      duration: 200,
     });
     await this.loading.present();
   
     const userId = this.userService.getUserId();
     if (userId) {
       await this.userService.saveFormDataCorreo(userId, this.nombre, `${this.dia}/${this.mes}/${this.ano}`, this.genero);
-
       await this.userService.sendUserNameToServer(userId, this.nombre);
       localStorage.setItem(`correoContraseñaNombre_${userId}`, this.nombre);
-
       setTimeout(() => {
         this.loading.dismiss();
       }, 2000);
@@ -69,35 +74,14 @@ export class DatosCorreoComponent  implements OnInit {
     this.router.navigate(['/principal2', { nombre: this.nombre }]);
   }
 
+  async mostrarAlerta(mensaje: string) {
+    const alert = await this.alertController.create({
+      header: 'Alerta',
+      message: mensaje,
+      buttons: ['Aceptar']
+    });
 
-  misDatos: any[] = [];
-
-  async recibirDatos() {
-    const userId = this.userService.getUserId();
-  
-    if (userId) {
-      const formDataCollectionRef: AngularFirestoreCollection<any> = this.userService.getFirestore().collection<any>(`form-data-Correo`);
-  
-      if (formDataCollectionRef) {
-        const whereFn: (field: string | CollectionReference | Query, operator: any, value: any) => Query = formDataCollectionRef.ref.where.bind(formDataCollectionRef.ref);
-        const query: Query = whereFn('userId', '==', userId);
-  
-        query
-          .get()
-          .then((snapshot) => {
-            const datos = snapshot.docs.map(doc => doc.data());
-            console.log('Datos recibidos:', datos);
-            this.misDatos = datos;
-          })
-          .catch((error) => {
-            console.error("Error al recibir datos:", error);
-          });
-      } else {
-        console.error("No se pudo obtener la referencia de la colección form-data-Correo.");
-      }
-    } else {
-      console.error("No se pudo obtener el ID de usuario.");
-    }
+    await alert.present();
   }
 
   ngOnDestroy() {
@@ -105,6 +89,4 @@ export class DatosCorreoComponent  implements OnInit {
       this.datosSubscription.unsubscribe();
     }
   }
-
-
 }

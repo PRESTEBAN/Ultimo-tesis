@@ -44,7 +44,6 @@ ion-content {
     color: #F1E6D2;
   }
   
-  
   .form-container {
     margin: 0px;
     justify-content: center;
@@ -94,10 +93,10 @@ ion-content {
     
   .botones{
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
-  
   }
+
   .but{
     margin-top: 20px;
     margin-bottom: 20px;
@@ -132,9 +131,6 @@ ion-content {
     color: black; /* Cambia esto al color de texto que desees */
   }
   
-  
-  
-  
   @media (max-width: 512px) {
     .form-container {
       width: 100%;
@@ -145,9 +141,9 @@ ion-content {
     margin-top: 15px;
     margin-bottom: 10px;
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
     font-size: 20px;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     text-align: center;
   }

@@ -1,14 +1,20 @@
+
+
 ion-content {
-    --ion-background-color: #F2E5D5;
+    --ion-background: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100%;
   }
+  .cont{
+    display: flex;
+    justify-content: center;
+  }
   
   ion-toolbar {
-    --ion-background-color: #254A59;
+    --ion-background-color: #1a8bb8;
     color: #ADD9D9;
   }
   
@@ -18,7 +24,7 @@ ion-content {
   
   ion-button {
     transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px #31d179;
     border-radius: 15px;
     font-family: 'Arial', sans-serif;
     margin: 15px; /* Separación de 15px del borde */
@@ -41,22 +47,27 @@ ion-content {
   ion-card {
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s; /* Agregamos la transición de la sombra */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px #31d179;
+    border-radius: 20px;
+    background: #67a9df;
+    color: #ffffff;
+    width: 90%;
   }
   
   ion-card:hover {
     transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Aumentamos la sombra al pasar el ratón */
+    box-shadow: 0 8px 16px #31d179; /* Aumentamos la sombra al pasar el ratón */
+    
   }
   
   ion-card.selected {
     border: 2px solid #4caf50;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Mantenemos la sombra cuando está seleccionado */
+    box-shadow: 0 8px 16px #31d179; /* Mantenemos la sombra cuando está seleccionado */
   }
   
   ion-button {
     transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px #31d179;
     border-radius: 15px;
     font-family: 'Arial', sans-serif;
     margin: 15px;
@@ -64,7 +75,7 @@ ion-content {
   
   ion-button:hover {
     transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Aumentamos la sombra al pasar el ratón */
+    box-shadow: 0 8px 16px #31d179; /* Aumentamos la sombra al pasar el ratón */
   }
   
   ion-button[selected='true'] {

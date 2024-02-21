@@ -1,7 +1,8 @@
-
 ion-header{
-    --ion-baground:#00bbff;
+    --ion-baground:#00bbff
+    padding-left:10%;
 }
+
 
 ion-content {
     --background: linear-gradient(to bottom,var(--ion-background-color), #5dbba7 );
@@ -29,6 +30,7 @@ ion-toolbar{
     flex-direction: column;
     border-radius: 20px 0 20px 0;
     color: #000000;
+    box-shadow: 0 4px 8px #a3eeb6;
 }
 .box{background-color: #4697a2;
     margin: 5%;
@@ -65,9 +67,11 @@ ion-label{
 }
 #estAnimo{
     background-color: #8ac9d3;
+    box-shadow: 0 4px 8px #31d179;
 }
 #ayuda{
     background-color: #8ad9d3;
+    box-shadow: 0 4px 8px #31d179;
 }
 
 

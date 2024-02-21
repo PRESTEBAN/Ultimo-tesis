@@ -1,10 +1,12 @@
-<ion-card (click)="toggleDetails()">
-  <ion-img [src]="backgroundImageUrl"></ion-img>
-  <ion-card-header>
-    <ion-card-title>{{ cardTitle }}</ion-card-title>
-  </ion-card-header>
-  <ion-card-content *ngIf="showDetails">
-    <!-- Contenido adicional que se mostrará cuando se haga clic -->
-    {{ cardContent }}
-  </ion-card-content>
-</ion-card>
+<div class="cont">
+  <ion-card (click)="toggleDetails()">
+    <ion-img [src]="backgroundImageUrl"></ion-img>
+    <ion-card-header>
+      <ion-card-title>{{ cardTitle }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content *ngIf="showDetails">
+      <!-- Contenido adicional que se mostrará cuando se haga clic -->
+      {{ cardContent }}
+    </ion-card-content>
+  </ion-card>
+</div>

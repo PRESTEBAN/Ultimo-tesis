@@ -22,8 +22,6 @@ export class ChatPage implements OnInit {
     promt: new FormControl('', [Validators.required, CustomValidators.noWhiteSpace])
   })
 
-  selectedCardImageUrl: string = '';
-
   loading: boolean = false;
 
   constructor(
@@ -90,7 +88,6 @@ export class ChatPage implements OnInit {
             this.loading = false;
             this.form.enable();
         
-            // Guardar mensajes en la colección de mensajes del usuario
             this.openAi.sendQuestion(promt, res.bot.content);
           },
           error: (error: any) => {

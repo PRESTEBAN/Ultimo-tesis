@@ -183,7 +183,7 @@ export class UserService {
 
 async sendUserNameToServer(userId: string, name: string) { //cree esto antes de que deje de funcionar, pero esto me sierve
   try {
-    const serverUrl = 'http://localhost:3000'; // Cambia esto con la URL de tu servidor
+    const serverUrl = 'https://psciapp-desarrollo-main.onrender.com'; // Cambia esto con la URL de tu servidor
 
     if (userId) {
       await this.http.post(`${serverUrl}/saveUserName`, { userId, name }).toPromise();

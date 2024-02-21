@@ -1,6 +1,6 @@
 // datos.component.ts
 import { Component, OnInit } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
 import { UserService } from '../../services/user.service';
 import { Observable, of } from 'rxjs';  
 import { Subscription } from 'rxjs';
@@ -23,7 +23,7 @@ export class DatosComponent implements OnInit {
   ano: number = 2004;
   genero: string = '';
 
-  dias: number[] = Array.from({ length: 31 }, (_, i) => i + 1);
+  dias: number[] = [];
   meses: number[] = Array.from({ length: 12 }, (_, i) => i + 1);
   anos: number[] = Array.from({ length: 27 }, (_, i) => 2004 + i);
 
@@ -31,65 +31,58 @@ export class DatosComponent implements OnInit {
   loading: any;
   datos$: Observable<any[]> = of([]); 
 
+  formularioValido: boolean = false;
 
-  constructor(private loadingController: LoadingController, private userService: UserService,  private router: Router) {
+  constructor(private loadingController: LoadingController, private userService: UserService,  private router: Router,  private alertController: AlertController) {
   }
 
   ngOnInit() {
+    this.actualizarDias();
+  }
+
+  actualizarDias() {
+    this.dias = [];
+    const diasEnMes = new Date(this.ano, this.mes, 0).getDate(); // Obtiene la cantidad de días en el mes seleccionado
+    for (let i = 1; i <= diasEnMes; i++) {
+      this.dias.push(i);
+    }
   }
 
   async submitForm() {
+    // Verificar si todos los campos obligatorios están llenos
+    if (!this.nombre || !this.dia || !this.mes || !this.ano || !this.genero) {
+      this.mostrarAlerta('Llena todos los campos');
+      return;
+    }
+
     this.loading = await this.loadingController.create({
       message: 'Cargando...',
       duration: 2000,
     });
     await this.loading.present();
   
-    // Guardar datos en Firebase
     const userId = this.userService.getUserId();
     if (userId) {
-      await this.userService.saveFormData(userId, this.nombre, `${this.dia}/${this.mes}/${this.ano}`, this.genero);
-  
-      // Enviar el nombre al servidor
-      await this.userService.sendUserNameToServer(userId, this.nombre); //aqui hise cambiso antes de que deje de funcionar
-      localStorage.setItem('userNombre', this.nombre);
-
-    setTimeout(() => {
-      this.loading.dismiss();
-    }, 2000);
-   }
-   this.router.navigate(['/principal', { nombre: this.nombre }]);
-  }
-  
-  misDatos: any[] = []; 
-  async recibirDatos() {
-    const userId = this.userService.getUserId();
-  
-    if (userId) {
-      const formDataCollectionRef: AngularFirestoreCollection<any> = this.userService.getFirestore().collection<any>(`form-data`);
-  
-      if (formDataCollectionRef) {
-        const whereFn: (field: string | CollectionReference | Query, operator: any, value: any) => Query = formDataCollectionRef.ref.where.bind(formDataCollectionRef.ref);
-        const query: Query = whereFn('userId', '==', userId);
-  
-        query
-          .get()
-          .then((snapshot) => {
-            const datos = snapshot.docs.map(doc => doc.data());
-            console.log('Datos recibidos:', datos);
-            this.misDatos = datos;
-          })
-          .catch((error) => {
-            console.error("Error al recibir datos:", error);
-          });
-      } else {
-        console.error("No se pudo obtener la referencia de la colección form-data.");
-      }
-    } else {
-      console.error("No se pudo obtener el ID de usuario.");
+      await this.userService.saveFormDataCorreo(userId, this.nombre, `${this.dia}/${this.mes}/${this.ano}`, this.genero);
+      await this.userService.sendUserNameToServer(userId, this.nombre);
+      localStorage.setItem(`correoContraseñaNombre_${userId}`, this.nombre);
+      setTimeout(() => {
+        this.loading.dismiss();
+      }, 2000);
     }
+    this.router.navigate(['/principal2', { nombre: this.nombre }]);
   }
-  
+
+  async mostrarAlerta(mensaje: string) {
+    const alert = await this.alertController.create({
+      header: 'Alerta',
+      message: mensaje,
+      buttons: ['Aceptar']
+    });
+
+    await alert.present();
+  }
+
   ngOnDestroy() {
     if (this.datosSubscription) {
       this.datosSubscription.unsubscribe();

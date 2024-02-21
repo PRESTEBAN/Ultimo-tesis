@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
+import { RouteReuseStrategy, Router } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
@@ -22,9 +22,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { DatosComponent } from "./components/datos/datos.component";
 import { FormsModule } from '@angular/forms';
 import { DatosCorreoComponent } from "./components/datos-correo/datos-correo.component";
-import { CardsAIComponent } from "./components/cards-ai/cards-ai.component";
 import { CardsPersonalidadComponent } from "./components/cards-personalidad/cards-personalidad.component";
 import { CardsPersonalidadcorreoComponent } from "./components/cards-personalidadcorreo/cards-personalidadcorreo.component";
+import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,6 @@ import { CardsPersonalidadcorreoComponent } from "./components/cards-personalida
                  LoginComponent,
                  DatosComponent,
                  DatosCorreoComponent,
-                 CardsAIComponent,
                  CardsPersonalidadComponent,
                  CardsPersonalidadcorreoComponent  
                 ],
@@ -55,4 +54,7 @@ import { CardsPersonalidadcorreoComponent } from "./components/cards-personalida
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+
+ 
+}
